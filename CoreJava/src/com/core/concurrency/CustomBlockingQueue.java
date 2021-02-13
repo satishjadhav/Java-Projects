@@ -5,7 +5,7 @@ import java.util.Queue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class CustomBlockingQueue<Eit> {
+public class CustomBlockingQueue<E> {
 
     private int max;
     private Queue<E> queue = new LinkedList<E>();
@@ -41,11 +41,12 @@ public class CustomBlockingQueue<Eit> {
             }
             E item = queue.remove();
             notFull.signalAll();
-            return e;
+            return item;
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-
+            lock.unlock();
         }
+        return null;
     }
 }
